@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fruiterie POS">
+  <meta name="theme-color" content="#111827">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Fruiterie Soleil 4 Saisons POS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="login" class="screen center">
+    <div class="card login-card">
+      <h1>Fruiterie Soleil<br>4 Saisons</h1>
+      <p class="muted">iPad POS</p>
+      <input id="password" type="password" placeholder="Admin password" autocomplete="off">
+      <button onclick="login()">Open POS</button>
+      <p id="loginError" class="error"></p>
+    </div>
+  </section>
+
+  <section id="app" class="screen hidden">
+    <header>
+      <div>
+        <h1>Fruiterie Soleil 4 Saisons</h1>
+        <p class="muted">Tap item • enter lb/kg/unit • print receipt</p>
+      </div>
+      <div class="header-actions">
+        <button class="secondary" onclick="showAdmin()">Admin</button>
+        <button class="secondary" onclick="window.print()">Print</button>
+        <button class="danger" onclick="clearCart()">Clear</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel">
+        <input id="search" placeholder="Search fruits / vegetables" oninput="renderProducts()">
+        <div class="tabs">
+          <button onclick="setCategory('All')" class="tab active">All</button>
+          <button onclick="setCategory('Fruits')" class="tab">Fruits</button>
+          <button onclick="setCategory('Vegetables')" class="tab">Vegetables</button>
+          <button onclick="setCategory('Herbs')" class="tab">Herbs</button>
+        </div>
+        <div id="products" class="products"></div>
+      </aside>
+
+      <section class="panel cart-panel">
+        <h2>Cart</h2>
+        <div id="cart" class="cart"></div>
+        <div class="totals">
+          <div><span>Subtotal</span><strong id="subtotal">$0.00</strong></div>
+          <div><span>GST/QST</span><strong id="tax">$0.00</strong></div>
+          <div class="grand"><span>Total</span><strong id="total">$0.00</strong></div>
+        </div>
+        <button class="checkout" onclick="window.print()">Print Receipt</button>
+      </section>
+    </main>
+  </section>
+
+  <section id="admin" class="screen hidden">
+    <header>
+      <h1>Admin Prices</h1>
+      <button onclick="hideAdmin()">Back to POS</button>
+    </header>
+    <div class="panel">
+      <p class="muted">Prices are saved on this iPad browser automatically.</p>
+      <div id="adminList"></div>
+      <div class="admin-actions">
+        <button onclick="saveAdmin()">Save Prices</button>
+        <button class="secondary" onclick="exportData()">Export Backup</button>
+        <label class="file-label">Import Backup<input type="file" accept=".json" onchange="importData(event)"></label>
+      </div>
+    </div>
+  </section>
+
+  <section id="receipt" aria-hidden="true">
+    <h3>Fruiterie Soleil 4 Saisons</h3>
+    <p id="receiptDate"></p>
+    <hr>
+    <div id="receiptItems"></div>
+    <hr>
+    <div class="rline"><span>Subtotal</span><b id="rSubtotal">$0.00</b></div>
+    <div class="rline"><span>GST/QST</span><b id="rTax">$0.00</b></div>
+    <div class="rline total"><span>Total</span><b id="rTotal">$0.00</b></div>
+    <p class="thanks">Thank you!</p>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
